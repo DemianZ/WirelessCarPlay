@@ -3,53 +3,6 @@
 #	Package: 	Apple CarPlay Communication Plug-in.
 #	Abstract: 	n/a 
 #	Version: 	320.17
-#	
-#	Disclaimer: IMPORTANT: This Apple software is supplied to you, by Apple Inc. ("Apple"), in your
-#	capacity as a current, and in good standing, Licensee in the MFi Licensing Program. Use of this
-#	Apple software is governed by and subject to the terms and conditions of your MFi License,
-#	including, but not limited to, the restrictions specified in the provision entitled ”Public 
-#	Software”, and is further subject to your agreement to the following additional terms, and your 
-#	agreement that the use, installation, modification or redistribution of this Apple software
-#	constitutes acceptance of these additional terms. If you do not agree with these additional terms,
-#	please do not use, install, modify or redistribute this Apple software.
-#	
-#	Subject to all of these terms and in consideration of your agreement to abide by them, Apple grants
-#	you, for as long as you are a current and in good-standing MFi Licensee, a personal, non-exclusive 
-#	license, under Apple's copyrights in this original Apple software (the "Apple Software"), to use, 
-#	reproduce, and modify the Apple Software in source form, and to use, reproduce, modify, and 
-#	redistribute the Apple Software, with or without modifications, in binary form. While you may not 
-#	redistribute the Apple Software in source form, should you redistribute the Apple Software in binary
-#	form, you must retain this notice and the following text and disclaimers in all such redistributions
-#	of the Apple Software. Neither the name, trademarks, service marks, or logos of Apple Inc. may be
-#	used to endorse or promote products derived from the Apple Software without specific prior written
-#	permission from Apple. Except as expressly stated in this notice, no other rights or licenses, 
-#	express or implied, are granted by Apple herein, including but not limited to any patent rights that
-#	may be infringed by your derivative works or by other works in which the Apple Software may be 
-#	incorporated.  
-#	
-#	Unless you explicitly state otherwise, if you provide any ideas, suggestions, recommendations, bug 
-#	fixes or enhancements to Apple in connection with this software (“Feedback”), you hereby grant to
-#	Apple a non-exclusive, fully paid-up, perpetual, irrevocable, worldwide license to make, use, 
-#	reproduce, incorporate, modify, display, perform, sell, make or have made derivative works of,
-#	distribute (directly or indirectly) and sublicense, such Feedback in connection with Apple products 
-#	and services. Providing this Feedback is voluntary, but if you do provide Feedback to Apple, you 
-#	acknowledge and agree that Apple may exercise the license granted above without the payment of 
-#	royalties or further consideration to Participant.
-#	
-#	The Apple Software is provided by Apple on an "AS IS" basis. APPLE MAKES NO WARRANTIES, EXPRESS OR 
-#	IMPLIED, INCLUDING WITHOUT LIMITATION THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY 
-#	AND FITNESS FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND OPERATION ALONE OR
-#	IN COMBINATION WITH YOUR PRODUCTS.
-#	
-#	IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL OR CONSEQUENTIAL DAMAGES 
-#	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
-#	PROFITS; OR BUSINESS INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION, MODIFICATION 
-#	AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED AND WHETHER UNDER THEORY OF CONTRACT, TORT
-#	(INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE 
-#	POSSIBILITY OF SUCH DAMAGE.
-#	
-#	Copyright (C) 2012-2015 Apple Inc. All Rights Reserved. Not to be used or disclosed without permission from Apple.
-#
 #	Build options
 #	-------------
 #	debug		-- 1=Compile in debug code, asserts, etc. 0=Strip out debug code for a release build.
@@ -71,7 +24,7 @@ endif
 
 # Build options
 
-	hid					?= 1
+	hid				?= 1
 	nohidraw			?= 1
 	screen				?= 1
 	hidbrowser			?= 0
@@ -82,13 +35,13 @@ else
 endif
 ifeq ($(nv),1)
 	linux				?= 1
-	os					= linux
+	os				= linux
 endif
 ifeq ($(qnx),1)
-	os					= qnx
+	os				= qnx
 	arch				= arm
 endif
-os						?= unknown
+os					?= unknown
 stub					?= 1
 ifneq ($(verbose),1)
 	quiet				= @
@@ -114,11 +67,11 @@ else
 		qnx_arch		= gcc_ntoarmv7le
 		qnx_prefix		= ntoarmv7
 
-		AR				= $(qnx_prefix)-ar
-		CC				= qcc -V$(qnx_arch)
-		CXX				= qcc -V$(qnx_arch)_cpp
-		LD				= $(qnx_prefix)-ld
-		NM				= $(qnx_prefix)-nm
+		AR			= $(qnx_prefix)-ar
+		CC			= qcc -V$(qnx_arch)
+		CXX			= qcc -V$(qnx_arch)_cpp
+		LD			= $(qnx_prefix)-ld
+		NM			= $(qnx_prefix)-nm
 		RANLIB			= $(qnx_prefix)-ranlib
 		STRIP			= $(qnx_prefix)-strip
 
@@ -127,11 +80,11 @@ else
 		LINKFLAGS		+= -w1
 	else
 		# Default toolchain.
-		AR				?= ar
-		CC				?= gcc
-		CXX				?= g++
-		LD				?= gcc
-		NM				?= nm
+		AR			?= ar
+		CC			?= gcc
+		CXX			?= g++
+		LD			?= gcc
+		NM			?= nm
 		RANLIB			?= ranlib
 		STRIP			?= strip
 	endif
@@ -147,11 +100,12 @@ SRCROOT					= $(CURDIR)/..
 BUILDROOT				= $(SRCROOT)/build/$(config)-$(os)
 OBJDIR					= $(BUILDROOT)/obj
 
-COREUTILSROOT			?= $(SRCROOT)/AccessorySDK
+COREUTILSROOT				?= $(SRCROOT)/AccessorySDK
 MDNSROOT				?= $(SRCROOT)/../mDNSResponder
 
 VPATH					+= $(SRCROOT)/Platform
 VPATH					+= $(SRCROOT)/PlatformPOSIX
+VPATH					+= $(SRCROOT)/Examples
 VPATH					+= $(SRCROOT)/Sources
 VPATH					+= $(SRCROOT)/Support
 VPATH					+= $(SRCROOT)/Transport
@@ -160,6 +114,8 @@ VPATH					+= $(SRCROOT)/Transport
 
 INCLUDES				+= -I$(SRCROOT)/Sources
 INCLUDES				+= -I$(SRCROOT)/Support
+INCLUDES				+= -I$(SRCROOT)/Platform
+INCLUDES				+= -I$(SRCROOT)/Examples
 INCLUDES				+= -I$(BUILDROOT)
 INCLUDES				+= -I$(BUILDROOT)/CoreUtils
 INCLUDES				+= -I$(MDNSROOT)/mDNSShared
@@ -177,7 +133,7 @@ endif
 COMMON_WARNINGS			+= -W
 COMMON_WARNINGS			+= -Wall
 COMMON_WARNINGS			+= -Wempty-body
-#COMMON_WARNINGS			+= -Werror
+#COMMON_WARNINGS		+= -Werror
 COMMON_WARNINGS			+= -Wextra
 COMMON_WARNINGS			+= -Wformat
 COMMON_WARNINGS			+= -Wmissing-braces
@@ -199,78 +155,84 @@ COMMON_WARNINGS			+= -Wunused-value
 COMMON_WARNINGS			+= -Wunused-variable
 COMMON_WARNINGS			+= -fPIC
 
-CWARNS					+= $(COMMON_WARNINGS)
-CWARNS					+= -Wmissing-prototypes
+CWARNS				+= $(COMMON_WARNINGS)
+CWARNS				+= -Wmissing-prototypes
 
-CXXWARNS				+= $(COMMON_WARNINGS)
-CXXWARNS				+= -Wnon-virtual-dtor
-CXXWARNS				+= -Woverloaded-virtual
+CXXWARNS			+= $(COMMON_WARNINGS)
+CXXWARNS			+= -Wnon-virtual-dtor
+CXXWARNS			+= -Woverloaded-virtual
 
 # Preprocessor flags
 
-COMMONFLAGS				+= -D__STDC_LIMIT_MACROS=1
-COMMONFLAGS				+= -D_GNU_SOURCE
-COMMONFLAGS				+= -DCFL_BINARY_PLISTS=1
-COMMONFLAGS				+= -DCFLITE_ENABLED=1
-COMMONFLAGS				+= -DDEBUG_CF_OBJECTS_ENABLED=1
-COMMONFLAGS				+= -DDEBUG_EXPORT_ERROR_STRINGS=1
+COMMONFLAGS			+= -D__STDC_LIMIT_MACROS=1
+COMMONFLAGS			+= -D_GNU_SOURCE
+COMMONFLAGS			+= -DCFL_BINARY_PLISTS=1
+COMMONFLAGS			+= -DCFLITE_ENABLED=1
+COMMONFLAGS			+= -DDEBUG_CF_OBJECTS_ENABLED=1
+COMMONFLAGS			+= -DDEBUG_EXPORT_ERROR_STRINGS=1
+
 ifeq ($(debug),1)
-	COMMONFLAGS			+= -DDEBUG=1
+	COMMONFLAGS		+= -DDEBUG=1
 else
-	COMMONFLAGS			+= -DNDEBUG
+	COMMONFLAGS		+= -DNDEBUG
 endif
 ifneq ($(openssl),1)
-	COMMONFLAGS			+= -DAES_UTILS_HAS_GLADMAN_GCM=0
-	COMMONFLAGS			+= -DAES_UTILS_USE_GLADMAN_AES=1
-	COMMONFLAGS			+= -DTARGET_HAS_MD5_UTILS=1
-	COMMONFLAGS			+= -DTARGET_HAS_SHA_UTILS=1
-	COMMONFLAGS			+= -DTARGET_NO_OPENSSL=1
-	COMMONFLAGS			+= -DUSE_VIA_ACE_IF_PRESENT=0
+	COMMONFLAGS		+= -DAES_UTILS_HAS_GLADMAN_GCM=0
+	COMMONFLAGS		+= -DAES_UTILS_USE_GLADMAN_AES=1
+	COMMONFLAGS		+= -DTARGET_HAS_MD5_UTILS=1
+	COMMONFLAGS		+= -DTARGET_HAS_SHA_UTILS=1
+	COMMONFLAGS		+= -DTARGET_NO_OPENSSL=1
+	COMMONFLAGS		+= -DUSE_VIA_ACE_IF_PRESENT=0
 endif
-	COMMONFLAGS			+= -DAIRPLAY_SCREEN=1
-COMMONFLAGS				+= -DAUDIO_STREAM_DLL
-COMMONFLAGS				+= -DSCREEN_STREAM_DLL
+	COMMONFLAGS		+= -DAIRPLAY_SCREEN=1
+COMMONFLAGS			+= -DAUDIO_STREAM_DLL
+COMMONFLAGS			+= -DSCREEN_STREAM_DLL
 ifeq ($(hidbrowser),1)
-	COMMONFLAGS			+= -DLEGACY_REGISTER_SCREEN_HID
+	COMMONFLAGS		+= -DLEGACY_REGISTER_SCREEN_HID
 endif
 
 # Compiler flags
 
-CFLAGS					+= $(INCLUDES) $(COMMONFLAGS) $(CWARNS) -Os
+CFLAGS				+= $(INCLUDES) $(COMMONFLAGS) $(CWARNS) -Os
 ifneq ($(qnx),1)
-	CFLAGS				+= -fgnu89-inline
-	CFLAGS				+= -std=gnu99
+	CFLAGS			+= -fgnu89-inline
+	CFLAGS			+= -std=gnu99
 endif
-CXXFLAGS				+= $(INCLUDES) $(COMMONFLAGS) $(CXXWARNS) -Os
+CXXFLAGS			+= $(INCLUDES) $(COMMONFLAGS) $(CXXWARNS) -Os
 
 # Targets
 
-TARGETS					+= $(BUILDROOT)/libAirPlaySupport.so
-TARGETS					+= $(BUILDROOT)/libAirPlay.so
+TARGETS				+= $(BUILDROOT)/libAirPlaySupport.so
+TARGETS				+= $(BUILDROOT)/libAirPlay.so
+
 ifeq ($(stub),1)
-	TARGETS				+= $(BUILDROOT)/libAudioStream.so
-	TARGETS				+= $(BUILDROOT)/libScreenStream.so
-	TARGETS				+= $(BUILDROOT)/libAudioConverter.so
+	TARGETS			+= $(BUILDROOT)/libAudioStream.so
+	TARGETS			+= $(BUILDROOT)/libScreenStream.so
+	TARGETS			+= $(BUILDROOT)/libAudioConverter.so
 endif
-TARGETS					+= $(BUILDROOT)/airplayutil
+
+# TARGETS				+= $(BUILDROOT)/airplayutil
+
+TARGETS				+= $(BUILDROOT)/libPlatformSupport.so
+TARGETS				+= $(BUILDROOT)/AppleCarPlay_AppStub
 
 # AirPlay Core
 
 AirPlayCore_OBJS		+= $(OBJDIR)/AirPlayReceiverPOSIX.o
 AirPlayCore_OBJS		+= $(OBJDIR)/AirPlayReceiverServer.o
 AirPlayCore_OBJS		+= $(OBJDIR)/AirPlayReceiverSession.o
-	AirPlayCore_OBJS	+= $(OBJDIR)/AirPlayReceiverSessionScreen.o
+AirPlayCore_OBJS		+= $(OBJDIR)/AirPlayReceiverSessionScreen.o
 AirPlayCore_OBJS		+= $(OBJDIR)/AirPlayUtils.o
 AirPlayCore_OBJS		+= $(OBJDIR)/AirTunesClock.o
 AirPlayCore_OBJS		+= $(OBJDIR)/CarPlayControlClient.o
 
 # AirPlay
 
-AirPlay_OBJS		+= $(AirPlayCore_OBJS)
+AirPlay_OBJS			+= $(AirPlayCore_OBJS)
 
 # AirPlay Support
 ifeq ($(hidbrowser),1)
-	AirPlaySupport_OBJS		+= $(OBJDIR)/ScreenUtils.so.o
+	AirPlaySupport_OBJS	+= $(OBJDIR)/ScreenUtils.so.o
 endif
 AirPlaySupport_OBJS		+= $(OBJDIR)/ScreenUtilsDLL.so.o
 AirPlaySupport_OBJS		+= $(OBJDIR)/AudioUtilsDLL.so.o
@@ -280,38 +242,62 @@ AirPlaySupport_OBJS		+= $(OBJDIR)/AudioConverterDLL.so.o
 
 AirPlayUtil_OBJS		+= $(OBJDIR)/airplayutil.o
 
+# Examples
+AppleCarPlay_AppStub_OBJS	+= $(OBJDIR)/AppleCarPlay_AppStub.o
+
+PlatformSupport_OBJS		+= $(OBJDIR)/HIDKnob.o
+PlatformSupport_OBJS		+= $(OBJDIR)/HIDMediaButtons.o
+PlatformSupport_OBJS		+= $(OBJDIR)/HIDProximity.o
+PlatformSupport_OBJS		+= $(OBJDIR)/HIDTelephony.o
+PlatformSupport_OBJS		+= $(OBJDIR)/HIDTouchpad.o
+PlatformSupport_OBJS		+= $(OBJDIR)/HIDTouchScreen.o
+
+
 # Audio / Screen
 
-Audio_OBJS				+= $(OBJDIR)/AudioUtilsStub.so.o
-Screen_OBJS				+= $(OBJDIR)/ScreenUtilsStub.so.o
+Audio_OBJS			+= $(OBJDIR)/AudioUtilsStub.so.o
+Screen_OBJS			+= $(OBJDIR)/ScreenUtilsStub.so.o
 AudioConverter_OBJS		+= $(OBJDIR)/AudioConverterStub.so.o
 
 # Libraries
 
 ifeq ($(qnx),1)
-	LINKFLAGS			+= -lbacktrace
-	LINKFLAGS			+= -lsocket
-	LINKFLAGS			+= -lnbutil
+	LINKFLAGS		+= -lbacktrace
+	LINKFLAGS		+= -lsocket
+	LINKFLAGS		+= -lnbutil
 endif
-LINKFLAGS				+= -lc
+LINKFLAGS			+= -lc
 ifeq ($(openssl),1)
-	LINKFLAGS			+= -lcrypto
+	LINKFLAGS		+= -lcrypto
 endif
-LINKFLAGS				+= -ldns_sd
-LINKFLAGS				+= -lm
+LINKFLAGS			+= -ldns_sd
+LINKFLAGS			+= -lm
+LINKFLAGS			+= -ldl
 
 # Rules
 
 .PHONY : all
 all: $(TARGETS)
 
-$(BUILDROOT)/airplayutil: $(AirPlayUtil_OBJS) $(BUILDROOT)/libAirPlaySupport.so $(BUILDROOT)/libAirPlay.so $(BUILDROOT)/libCoreUtils.so
+#$(BUILDROOT)/airplayutil: $(AirPlayUtil_OBJS) $(BUILDROOT)/libAirPlaySupport.so $(BUILDROOT)/libAirPlay.so $(BUILDROOT)/libCoreUtils.so
+#	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
+#	$(quiet)$(CC) $(LINKFLAGS) -lAirPlaySupport -lAirPlay -lCoreUtils -o $@ $^
+#	$(quiet)$(STRIP) $@
+#	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$#(ColorEnd)"
+
+$(BUILDROOT)/AppleCarPlay_AppStub: $(AppleCarPlay_AppStub_OBJS) $(BUILDROOT)/libPlatformSupport.so $(BUILDROOT)/libAirPlaySupport.so $(BUILDROOT)/libAirPlay.so $(BUILDROOT)/libCoreUtils.so
 	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
-	$(quiet)$(CC) $(LINKFLAGS) -lAirPlaySupport -lAirPlay -lCoreUtils -o $@ $^
+	$(quiet)$(CC) $(LINKFLAGS) -ldl -lPlatformSupport -lAirPlaySupport -lAirPlay -lCoreUtils -pthread -o $@ $^
 	$(quiet)$(STRIP) $@
 	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$(ColorEnd)"
 
 # Library rules.
+$(BUILDROOT)/libPlatformSupport.so: $(PlatformSupport_OBJS) $(BUILDROOT)/libAirPlaySupport.so $(BUILDROOT)/libAirPlay.so $(BUILDROOT)/libCoreUtils.so
+	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
+	$(quiet)$(CC) -shared -Wl,-soname,libPlatformSupport.so -o $@ $(LINKFLAGS) -lAirPlay -lCoreUtils -lAirPlaySupport $^
+	$(quiet)$(STRIP) $@
+	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$(ColorEnd)"
+
 
 $(BUILDROOT)/libAirPlay.so: $(AirPlay_OBJS) $(BUILDROOT)/libAirPlaySupport.so
 	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
@@ -348,11 +334,14 @@ clean:
 	-rm -rf $(BUILDROOT)
 
 $(AirPlay_OBJS):		| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
-$(AirPlaySupport_OBJS):	| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
-$(AirPlayUtil_OBJS):	| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
+$(AirPlaySupport_OBJS):		| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
+$(AirPlayUtil_OBJS):		| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
 $(Audio_OBJS):			| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
 $(Screen_OBJS):			| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
-$(AudioConverter_OBJS):	| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
+$(AudioConverter_OBJS):		| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
+$(PlatformSupport_OBJS):	| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
+$(AppleCarPlay_AppStub_OBJS):	| $(BUILDROOT)/obj $(BUILDROOT)/CoreUtils
+
 
 $(BUILDROOT)/obj:
 	$(quiet)mkdir -p $@
@@ -377,13 +366,13 @@ $(OBJDIR)/%.so.o: %.cpp
 
 # Core Utils
 
-arm					= 1
+arm				= 1
 ifeq ($(openssl),1)
 	libtommath		= 0
 else
 	libtommath		= 1
 endif	
-mfi					= 1
+mfi				= 1
 nvtools				= $(nv)
 qnxtools			= $(qnx)
 
@@ -392,6 +381,7 @@ export BUILDROOT
 ifeq ($(debug),1)
 	export STRIP
 endif
+
 
 .PHONY : $(BUILDROOT)/libCoreUtils.so
 $(BUILDROOT)/libCoreUtils.so: $(BUILDROOT)/CoreUtils

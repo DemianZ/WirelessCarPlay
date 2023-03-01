@@ -72,6 +72,14 @@
 #include "AudioUtils.h"
 #include "CarPlayControlClient.h"
 
+
+#include <fcntl.h>
+#include <pwd.h>
+#include <sys/stat.h>
+#include <sys/sysctl.h>
+#include <sys/uio.h>
+#include <sys/un.h>
+
 //===========================================================================================================================
 //	Internals
 //===========================================================================================================================
@@ -1481,14 +1489,14 @@ exit:
 
 static CFArrayRef _getHIDDevices( OSStatus *outErr )
 {
-	CFArrayRef					dictArray = NULL;
+	CFArrayRef dictArray = NULL;
 	
 	if( gHiFiTouch || gLoFiTouch )
 	{
 		uint8_t *	descPtr;
 		size_t		descLen;
 
-		err = HIDTouchScreenSingleCreateDescriptor( &descPtr, &descLen, gVideoWidth, gVideoHeight );
+		int err = HIDTouchScreenSingleCreateDescriptor( &descPtr, &descLen, gVideoWidth, gVideoHeight );
 		require_noerr( err, exit );
 
 		err = AirPlayInfoArrayAddHIDDevice( &dictArray, gTouchUID, "Touch Screen", kUSBVendorTouchScreen, kUSBProductTouchScreen, kUSBCountryCodeUnused, descPtr, descLen, kDefaultUUID );
@@ -1501,7 +1509,7 @@ static CFArrayRef _getHIDDevices( OSStatus *outErr )
 		uint8_t *	descPtr;
 		size_t		descLen;
 
-		err = HIDKnobCreateDescriptor( &descPtr, &descLen );
+		int err = HIDKnobCreateDescriptor( &descPtr, &descLen );
 		require_noerr( err, exit );
 
 		err = AirPlayInfoArrayAddHIDDevice( &dictArray, gKnobUID, "Knob & Buttons", kUSBVendorKnobButtons, kUSBProductKnobButtons, kUSBCountryCodeUnused, descPtr, descLen, kDefaultUUID );
@@ -1514,7 +1522,7 @@ static CFArrayRef _getHIDDevices( OSStatus *outErr )
 		uint8_t *	descPtr;
 		size_t		descLen;
 
-		err = HIDProximityCreateDescriptor( &descPtr, &descLen );
+		int err = HIDProximityCreateDescriptor( &descPtr, &descLen );
 		require_noerr( err, exit );
 
 		err = AirPlayInfoArrayAddHIDDevice( &dictArray, gProxSensorUID, "Proximity Sensor", kUSBVendorProxSensor, kUSBProductProxSensor, kUSBCountryCodeUnused, descPtr, descLen, kDefaultUUID );
@@ -1522,11 +1530,11 @@ static CFArrayRef _getHIDDevices( OSStatus *outErr )
 		require_noerr( err, exit );
 	}
 
-	err = kNoErr;
+	int err = kNoErr;
 
 exit:
 	if( outErr ) *outErr = err;
-	return( result );
+	return( dictArray );
 }
 
 //===========================================================================================================================

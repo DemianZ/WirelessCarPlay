@@ -289,27 +289,27 @@ all: $(TARGETS)
 
 $(BUILDROOT)/AppleCarPlay_AppStub: $(AppleCarPlay_AppStub_OBJS) $(BUILDROOT)/libPlatformSupport.so $(BUILDROOT)/libAirPlaySupport.so $(BUILDROOT)/libAirPlay.so $(BUILDROOT)/libCoreUtils.so
 	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
-	gcc $(LINKFLAGS) -lPlatformSupport -lAirPlaySupport -lAirPlay -lCoreUtils -pthread -o $@ $^ -lm -ldl
+	$(quiet)$(CC) $(LINKFLAGS) -lPlatformSupport -lAirPlaySupport -lAirPlay -lCoreUtils -pthread -o $@ $^ -lm
 	$(quiet)$(STRIP) $@
 	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$(ColorEnd)"
 
 # Library rules.
-$(BUILDROOT)/libPlatformSupport.so: $(PlatformSupport_OBJS) $(BUILDROOT)/libAirPlaySupport.so $(BUILDROOT)/libAirPlay.so $(BUILDROOT)/libCoreUtils.so
+$(BUILDROOT)/libPlatformSupport.so: $(PlatformSupport_OBJS) $(BUILDROOT)/libAirPlaySupport.so
 	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
-	$(quiet)$(CC) -shared -Wl,-soname,libPlatformSupport.so -o $@ $(LINKFLAGS) -lAirPlay -lCoreUtils -lAirPlaySupport $^ -lm -ldl
+	$(quiet)$(CC) -shared -Wl,-soname,libPlatformSupport.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^
 	$(quiet)$(STRIP) $@
 	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$(ColorEnd)"
 
 
 $(BUILDROOT)/libAirPlay.so: $(AirPlay_OBJS) $(BUILDROOT)/libAirPlaySupport.so
 	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
-	$(quiet)$(CC) -shared -Wl,-soname,libAirPlay.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^ -lm -ldl
+	$(quiet)$(CC) -shared -Wl,-soname,libAirPlay.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^
 	$(quiet)$(STRIP) $@
 	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$(ColorEnd)"
 
 $(BUILDROOT)/libAudioStream.so: $(Audio_OBJS) $(BUILDROOT)/libAirPlaySupport.so
 	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
-	$(quiet)$(CC) -shared -Wl,-soname,libAudioStream.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^ -lm -ldl
+	$(quiet)$(CC) -shared -Wl,-soname,libAudioStream.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^
 	$(quiet)$(STRIP) $@
 	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$(ColorEnd)"
 
@@ -321,13 +321,13 @@ $(BUILDROOT)/libAirPlaySupport.so: $(AirPlaySupport_OBJS)
 
 $(BUILDROOT)/libScreenStream.so: $(Screen_OBJS) $(BUILDROOT)/libAirPlaySupport.so
 	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
-	$(quiet)$(CC) -shared -Wl,-soname,libScreenStream.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^ -lm -ldl
+	$(quiet)$(CC) -shared -Wl,-soname,libScreenStream.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^
 	$(quiet)$(STRIP) $@
 	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$(ColorEnd)"
 
 $(BUILDROOT)/libAudioConverter.so: $(AudioConverter_OBJS) $(BUILDROOT)/libAirPlaySupport.so
 	@echo "Linking ($(os)-$(config)) $(ColorMagenta)$(notdir $@)$(ColorEnd)"
-	$(quiet)$(CC) -shared -Wl,-soname,libAudioConverter.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^ -lm -ldl
+	$(quiet)$(CC) -shared -Wl,-soname,libAudioConverter.so -o $@ $(LINKFLAGS) -lAirPlaySupport $^
 	$(quiet)$(STRIP) $@
 	@echo "$(ColorCyan)=== BUILD COMPLETE: $(notdir $@) ($(os)-$(config))$(ColorEnd)"
 	
